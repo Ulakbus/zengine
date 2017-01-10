@@ -425,14 +425,17 @@ class ZEngine(object):
         # FIXME: raise if last task of a workflow is a UserTask
         # actually this check should be done at parser
         is_lane_changed = False
-
+        from zengine.lib import translation
         while self._should_we_run():
             task = None
             for task in self.workflow.get_tasks(state=Task.READY):
+                locale = self.current.locale
+                translation.InstalledLocale.install_language(locale['locale_language'])
                 self.current.old_lane = self.current.lane_name
                 self.current._update_task(task)
                 if self.catch_lane_change():
                     return
+
                 self.check_for_permission()
                 self.check_for_lane_permission()
                 self.log_wf_state()

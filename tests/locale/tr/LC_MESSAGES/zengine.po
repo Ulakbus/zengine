@@ -105,12 +105,12 @@ msgstr "Kaydet ve Listele"
 #: ../../zengine/zengine/views/crud.py:49
 #: ../../zengine/zengine/views/crud.py:259
 msgid "Save as New"
-msgstr "Yeni Olarak Kaydet"
+msgstr "Yeni Olarak Kaydet :::::::"
 
 #: ../../zengine/zengine/views/crud.py:51
 #: ../../zengine/zengine/views/crud.py:261
 msgid "Save as New and List"
-msgstr "Yeni Olarak Kaydet ve Listele"
+msgstr "Yeni Olarak Kaydet ve Listele :::::::"
 
 #: ../../zengine/zengine/views/crud.py:246
 msgid "Delete"

@@ -10,8 +10,9 @@ from pyoko.fields import DATE_FORMAT
 from datetime import datetime
 from zengine.lib.decorators import view
 from zengine.models import TaskInvitation, BPMNWorkflow
-from zengine.lib.translation import gettext_lazy as __
+from zengine.lib.translation import gettext_lazy as __, gettext
 from zengine.lib.translation import format_date
+from zengine.config import settings
 
 
 @view()
@@ -92,12 +93,17 @@ def get_task_actions(current):
                    'actions': [{"title":':'Action Title', "wf": "workflow_name"},]
                     }
     """
+    domain = ''
+    current_language = current.locale['locale_language']
+    for k, v in settings.TRANSLATION_DOMAINS.items():
+        if not v == current_language:
+            domain = k
     task_inv = TaskInvitation.objects.get(current.input['key'])
-    actions = [{"title": __(u"Assign Someone Else"), "wf": "assign_same_abstract_role"},
-               {"title": __(u"Suspend"), "wf": "suspend_workflow"},
-               {"title": __(u"Postpone"), "wf": "postpone_workflow"}]
+    actions = [{"title": __(u"Assign Someone Else", domain=domain), "wf": "assign_same_abstract_role"},
+               {"title": __(u"Suspend", domain=domain), "wf": "suspend_workflow"},
+               {"title": __(u"Postpone", domain=domain), "wf": "postpone_workflow"}]
     if task_inv.instance.current_actor != current.role:
-        actions.append({"title": __(u"Assign Yourself"), "wf": "task_assign_yourself"})
+        actions.append({"title": __(u"Assign Yourself", domain=domain), "wf": "task_assign_yourself"})
 
     current.output['key'] = task_inv.key
     current.output['actions'] = actions
